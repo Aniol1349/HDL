@@ -2,8 +2,8 @@
 
 module ChebeshyvDSP_1 #(
     parameter DATA_WIDTH = 32,
-    parameter FIFO_DEPTH = 128,
-    parameter ADDR_WIDTH = $clog2(FIFO_DEPTH)
+    parameter STATE_PASS_THROUGH = 1'b0,
+    parameter STATE_BUFFER = 1'b1
 )(
     input  wire                  axi_clk,
     input  wire                  axi_resetn,
@@ -19,60 +19,95 @@ module ChebeshyvDSP_1 #(
     input  wire                  m_axis_ready
 );
 
-    (* ram_style = "block" *)
-    reg [DATA_WIDTH-1:0] fifo [0:FIFO_DEPTH-1];
+    // FSM state registers
+    reg current_state, next_state;
 
-    reg [ADDR_WIDTH-1:0] write_ptr;
-    reg [ADDR_WIDTH-1:0] read_ptr;
-    reg [ADDR_WIDTH:0]   fifo_count;
+    // Data Buffer Register
+    reg [DATA_WIDTH-1:0] buffer_reg;
 
-    wire fifo_empty = (fifo_count == 0);
-    wire fifo_full  = (fifo_count == FIFO_DEPTH);
-
-    // Safety margin threshold to prevent overflow
-    localparam FIFO_ALMOST_FULL = FIFO_DEPTH - 2;
-
-    // Handshake control (no direct combinational path!)
+    //-----------------------------------
+    // Sequential FSM state update logic
+    //-----------------------------------
     always @(posedge axi_clk or negedge axi_resetn) begin
         if (!axi_resetn) begin
-            s_axis_ready <= 1'b0;
-            m_axis_valid <= 1'b0;
+            current_state <= STATE_PASS_THROUGH;
         end else begin
-            // Throttle input early to prevent overflow
-            s_axis_ready <= (fifo_count < FIFO_ALMOST_FULL);
-
-            // Generate output valid appropriately
-            if (!m_axis_valid || m_axis_ready)
-                m_axis_valid <= !fifo_empty;
+            current_state <= next_state;
         end
     end
 
-    // FIFO Write/Read management
+    //-----------------------------
+    // Combinational next-state logic
+    //-----------------------------
+    always @(*) begin
+        case (current_state)
+            STATE_PASS_THROUGH: begin
+                if (s_axis_valid && !m_axis_ready)
+                    next_state = STATE_BUFFER;
+                else
+                    next_state = STATE_PASS_THROUGH;
+            end
+
+            STATE_BUFFER: begin
+                if (m_axis_ready)
+                    next_state = STATE_PASS_THROUGH;
+                else
+                    next_state = STATE_BUFFER;
+            end
+
+            default: next_state = STATE_PASS_THROUGH;
+        endcase
+    end
+
+    //---------------------------------------------------------
+    // Sequential logic: AXI-Stream handshake and buffer output
+    //---------------------------------------------------------
     always @(posedge axi_clk or negedge axi_resetn) begin
         if (!axi_resetn) begin
-            write_ptr   <= 0;
-            read_ptr    <= 0;
-            fifo_count  <= 0;
-            m_axis_data <= {DATA_WIDTH{1'b0}};
+            s_axis_ready <= 1'b1;                      // Ready to accept input data immediately
+            m_axis_valid <= 1'b0;
+            m_axis_data  <= {DATA_WIDTH{1'b0}};
+            buffer_reg   <= {DATA_WIDTH{1'b0}};
         end else begin
-            // FIFO Write
-            if (s_axis_valid && s_axis_ready) begin
-                fifo[write_ptr] <= s_axis_data;
-                write_ptr <= (write_ptr == FIFO_DEPTH - 1) ? 0 : write_ptr + 1;
-            end
+            case (current_state)
 
-            // FIFO Read
-            if (m_axis_valid && m_axis_ready) begin
-                m_axis_data <= fifo[read_ptr];
-                read_ptr <= (read_ptr == FIFO_DEPTH - 1) ? 0 : read_ptr + 1;
-            end
+                STATE_PASS_THROUGH: begin
+                    s_axis_ready <= 1'b1;              // Accepting new data from upstream
+                    if (s_axis_valid && m_axis_ready) begin
+                        m_axis_data  <= s_axis_data;   // Direct passthrough, no buffering needed
+                        m_axis_valid <= 1'b1;
+                    end else if (s_axis_valid && !m_axis_ready) begin
+                        m_axis_valid <= 1'b0;          // Consumer stalled; data will be buffered
+                    end else begin
+                        m_axis_valid <= 1'b0;          // No valid data to pass through
+                    end
+                end
 
-            // Manage FIFO Count correctly
-            case ({s_axis_valid && s_axis_ready, m_axis_valid && m_axis_ready})
-                2'b01: fifo_count <= fifo_count - 1; // Read only
-                2'b10: fifo_count <= fifo_count + 1; // Write only
-                default: fifo_count <= fifo_count;   // No change / simultaneous R/W
+                STATE_BUFFER: begin
+                    s_axis_ready <= 1'b0;              // Buffer full, stall upstream data
+                    m_axis_data  <= buffer_reg;        // Output buffered data
+                    m_axis_valid <= 1'b1;
+                    if (m_axis_ready) begin
+                        m_axis_valid <= 1'b0;          // Buffered data consumed, ready to return to pass-through
+                    end
+                end
+
+                default: begin
+                    s_axis_ready <= 1'b1;
+                    m_axis_valid <= 1'b0;
+                end
             endcase
+        end
+    end
+
+    //--------------------------------------------------
+    // Buffer register loading logic on state transition
+    //--------------------------------------------------
+    always @(posedge axi_clk or negedge axi_resetn) begin
+        if (!axi_resetn) begin
+            buffer_reg <= {DATA_WIDTH{1'b0}};
+        end else if (current_state == STATE_PASS_THROUGH && next_state == STATE_BUFFER) begin
+            buffer_reg <= s_axis_data;                 // Capture input data into buffer register
         end
     end
 
