@@ -136,7 +136,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>4b9808a6</spirit:value>
+            <spirit:value>36dc2706</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -152,7 +152,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>4b9808a6</spirit:value>
+            <spirit:value>36dc2706</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -166,7 +166,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>03d44dca</spirit:value>
+            <spirit:value>c0124980</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -291,16 +291,6 @@
         <spirit:displayName>Data Width</spirit:displayName>
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DATA_WIDTH">32</spirit:value>
       </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>STATE_PASS_THROUGH</spirit:name>
-        <spirit:displayName>State Pass Through</spirit:displayName>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.STATE_PASS_THROUGH" spirit:bitStringLength="1">&quot;0&quot;</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>STATE_BUFFER</spirit:name>
-        <spirit:displayName>State Buffer</spirit:displayName>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.STATE_BUFFER" spirit:bitStringLength="1">&quot;1&quot;</spirit:value>
-      </spirit:modelParameter>
     </spirit:modelParameters>
   </spirit:model>
   <spirit:choices>
@@ -316,7 +306,7 @@
       <spirit:file>
         <spirit:name>ChebeshyvDSP_1.srcs/sources_1/new/ChebeshyvDSP_1.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_4b9808a6</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_36dc2706</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -331,7 +321,7 @@
       <spirit:file>
         <spirit:name>xgui/ChebeshyvDSP_1_v1_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_03d44dca</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_c0124980</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -346,16 +336,6 @@
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
       <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">ChebeshyvDSP_1_v1_0</spirit:value>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>STATE_PASS_THROUGH</spirit:name>
-      <spirit:displayName>State Pass Through</spirit:displayName>
-      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.STATE_PASS_THROUGH" spirit:bitStringLength="1">&quot;0&quot;</spirit:value>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>STATE_BUFFER</spirit:name>
-      <spirit:displayName>State Buffer</spirit:displayName>
-      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.STATE_BUFFER" spirit:bitStringLength="1">&quot;1&quot;</spirit:value>
     </spirit:parameter>
   </spirit:parameters>
   <spirit:vendorExtensions>
@@ -392,16 +372,16 @@
       </xilinx:taxonomies>
       <xilinx:displayName>ChebeshyvDSP_1_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>59</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2025-03-14T14:53:13Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>60</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2025-05-21T14:24:28Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2023.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="c7c5ee23"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="d129abae"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="033594f3"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="dd3eba18"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="162de292"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="1f634646"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="4ea52dba"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="fc12d843"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>
