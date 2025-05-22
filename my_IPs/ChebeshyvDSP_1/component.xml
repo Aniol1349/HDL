@@ -87,6 +87,14 @@
             <spirit:name>m_axis_ready</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
       </spirit:portMaps>
     </spirit:busInterface>
     <spirit:busInterface>
@@ -119,6 +127,14 @@
             <spirit:name>s_axis_ready</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
       </spirit:portMaps>
     </spirit:busInterface>
   </spirit:busInterfaces>
@@ -136,7 +152,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>36dc2706</spirit:value>
+            <spirit:value>71e7dea1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -152,7 +168,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>36dc2706</spirit:value>
+            <spirit:value>71e7dea1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -166,7 +182,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c0124980</spirit:value>
+            <spirit:value>4c124a85</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -229,12 +245,29 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
+        <spirit:name>s_axis_tid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.TID_WIDTH&apos;)) - 1)">2</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
         <spirit:name>s_axis_ready</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
-              <spirit:typeName>reg</spirit:typeName>
+              <spirit:typeName>wire</spirit:typeName>
               <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
               <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
             </spirit:wireTypeDef>
@@ -272,6 +305,23 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
+        <spirit:name>m_axis_tid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.TID_WIDTH&apos;)) - 1)">2</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>reg</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
         <spirit:name>m_axis_ready</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
@@ -291,6 +341,11 @@
         <spirit:displayName>Data Width</spirit:displayName>
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DATA_WIDTH">32</spirit:value>
       </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>TID_WIDTH</spirit:name>
+        <spirit:displayName>Tid Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.TID_WIDTH">3</spirit:value>
+      </spirit:modelParameter>
     </spirit:modelParameters>
   </spirit:model>
   <spirit:choices>
@@ -306,7 +361,7 @@
       <spirit:file>
         <spirit:name>ChebeshyvDSP_1.srcs/sources_1/new/ChebeshyvDSP_1.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_36dc2706</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_71e7dea1</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -321,7 +376,7 @@
       <spirit:file>
         <spirit:name>xgui/ChebeshyvDSP_1_v1_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_c0124980</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_4c124a85</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -336,6 +391,11 @@
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
       <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">ChebeshyvDSP_1_v1_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>TID_WIDTH</spirit:name>
+      <spirit:displayName>Tid Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.TID_WIDTH">3</spirit:value>
     </spirit:parameter>
   </spirit:parameters>
   <spirit:vendorExtensions>
@@ -372,16 +432,16 @@
       </xilinx:taxonomies>
       <xilinx:displayName>ChebeshyvDSP_1_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>60</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2025-05-21T14:24:28Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>61</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2025-05-22T13:11:41Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2023.2</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="c7c5ee23"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="033594f3"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="dd3eba18"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="4ea52dba"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="fc12d843"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="63434c21"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="6a359c14"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="496a40e2"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="0c36d889"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="0e8992d2"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>
